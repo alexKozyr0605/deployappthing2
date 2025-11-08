@@ -9,6 +9,14 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
+schedules:
+  - cron: '0 3 * * *'
+    displayName: 'Deploy every day at 3 A.M.'
+    branches:
+      include:
+      - release
+    always: false
+
 steps:
 - script: echo Hello, world!
   condition: |
@@ -22,3 +30,18 @@ steps:
     echo Add other tasks to build, test, and deploy your project.
     echo See https://aka.ms/yaml
   displayName: 'Run a multi-line script'
+
+# - stage: 'Test'
+#   displayName: 'Deploy to the Test environment'
+#   condition: and(succeeded(), eq(variables['Build.Reason'], 'Schedule'))
+
+# - stage: 'Deploy'
+#   displayName: 'Deploy the web application'
+#   dependsOn: Build
+#   jobs:
+#   - deployment: Deploy
+#     pool:
+#       vmImage: 'ubuntu-20.04'
+#     environment: dev
+#     variables:
+#     - group: Release
